@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 ///
 /// @Project name    : move_university_subject
@@ -13,9 +14,11 @@ class MoveUniversityApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(),
+    return ProviderScope(
+      child: MaterialApp(
+        home: Scaffold(
+          body: Container(),
+        ),
       ),
     );
   }

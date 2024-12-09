@@ -41,6 +41,7 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
     try {
       await createUserUseCase(CreateUserParams(user));
+      await getUser();
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }
@@ -51,6 +52,7 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
     try {
       await updateUserUseCase(UpdateUserParams(user));
+      await getUser();
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }
@@ -61,6 +63,7 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
     try {
       await deleteUserUseCase(DeleteUserParams(userId));
+      await getUser();
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }
