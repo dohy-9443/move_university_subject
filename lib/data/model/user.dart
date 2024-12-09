@@ -47,14 +47,19 @@ class UserModel{
     );
   }
 
-  factory UserModel.fromFirestore(DocumentSnapshot doc) {
+  factory UserModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data();
+    if (data == null) {
+      throw Exception('Document data is null for id: ${doc.id}');
+    }
+
     return UserModel(
       id: doc.id,
-      name: doc['name'],
-      email: doc['email'],
-      address: doc['address'],
-      createdAt: doc['createAt'],
-      updatedAt: doc['updateAt'],
+      name: data['name'] ?? '',
+      email: data['email'] ?? '',
+      address: data['address'] ?? '',
+      createdAt: data['createdAt'] ?? Timestamp.now(),
+      updatedAt: data['updatedAt'] ?? Timestamp.now(),
     );
   }
 }
