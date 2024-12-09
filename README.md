@@ -7,6 +7,7 @@
     - freezed_annotation: ^2.4.4
     - json_annotation: ^4.9.0
     - cloud_firestore: ^4.8.0
+    - firebase_core: ^3.8.1
 
 - dev_dependencies:
     - build_runner: ^2.4.12
