@@ -43,6 +43,7 @@ final deleteUserUseCaseProvider = Provider<DeleteUserUseCase>((ref) {
 
 final userViewModelProvider = StateNotifierProvider<UserViewModel, AsyncValue<List<UserEntity>>>((ref) {
   return UserViewModel(
+    firestore: ref.watch(firebaseFireStoreProvider),
     getUserUseCase: ref.watch(getUsersUseCaseProvider),
     createUserUseCase: ref.watch(createUserUseCaseProvider),
     updateUserUseCase: ref.watch(updateUserUseCaseProvider),

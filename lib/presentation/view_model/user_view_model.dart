@@ -12,12 +12,14 @@ import 'package:move_university_subject/domain/use_case/use_case.dart';
 ///
 
 class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
+  final FirebaseFirestore firestore;
   final GetUserUseCase getUserUseCase;
   final CreateUserUseCase createUserUseCase;
   final UpdateUserUseCase updateUserUseCase;
   final DeleteUserUseCase deleteUserUseCase;
 
   UserViewModel({
+    required this.firestore,
     required this.getUserUseCase,
     required this.createUserUseCase,
     required this.updateUserUseCase,
@@ -38,7 +40,6 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
     try {
       final users = await getUserUseCase(GetUsersParams(startAfter: lastDocument));
-
       if (isRefresh) {
         state = AsyncValue.data(users);
       } else {
@@ -47,13 +48,18 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
       }
 
       if (users.isNotEmpty) {
-        lastDocument = users.last.createdAt as DocumentSnapshot;
+        lastDocument = await _getLastDocumentSnapshot(users.last.id);
       }
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     } finally {
       isFetching = false;
     }
+  }
+
+  Future<DocumentSnapshot?> _getLastDocumentSnapshot(String userId) async {
+    final snapshot = await firestore.collection('users').doc(userId).get();
+    return snapshot.exists ? snapshot : null;
   }
 
   Future<void> addUser(UserEntity user) async {
