@@ -43,8 +43,6 @@ app.*.map.json
 /android/app/release
 
 pubspec.lock
-*.freezed.dart
 *.env
-*.g.dart
 firebase.json
 firebase_options.dart

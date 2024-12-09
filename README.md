@@ -4,15 +4,9 @@
 ```
 - dependencies:
     - flutter_riverpod: ^2.3.0
-    - freezed_annotation: ^2.4.4
-    - json_annotation: ^4.9.0
     - cloud_firestore: ^4.8.0
     - firebase_core: ^3.8.1
 
-- dev_dependencies:
-    - build_runner: ^2.4.12
-    - freezed: ^2.5.7
-    - json_serializable: ^6.8.0
 ```
 
 ## folder structure
@@ -43,3 +37,8 @@ lib
 ┣ app.dart
 ┗ main.dart
 ```
+### 각 폴더별 역할
+1. **core**         : 프로젝트 전체에서 사용하는 공통 코드
+2. **data**         : 외부 데이터 소스와 관련된 구현 코드(ex. firebase)
+3. **domain**       : entity, repository interface, use case 등 비지니스 로직
+4. **presentation** : view 와 view model UI 와 상태관리 코드 
