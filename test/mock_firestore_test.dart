@@ -33,21 +33,15 @@ void main() {
     mockDocumentSnapshot = MockQueryDocumentSnapshot();
 
     when(() => mockFirestore.collection(any())).thenReturn(mockCollectionReference);
-    // when(() => Firebase.initializeApp()).thenAnswer((_) async => MockFirebase());
 
     dataSource = UserRemoteDataSource(mockFirestore);
   });
 
   test('firebase test', () async {
-    // Arrange
-    when(() => mockCollectionReference.orderBy(any()))
-        .thenReturn(mockCollectionReference);
-    when(() => mockCollectionReference.limit(any()))
-        .thenReturn(mockCollectionReference);
-    when(() => mockCollectionReference.get())
-        .thenAnswer((_) async => mockQuerySnapshot);
-    when(() => mockQuerySnapshot.docs)
-        .thenReturn([mockDocumentSnapshot]);
+    when(() => mockCollectionReference.orderBy(any())).thenReturn(mockCollectionReference);
+    when(() => mockCollectionReference.limit(any())).thenReturn(mockCollectionReference);
+    when(() => mockCollectionReference.get()).thenAnswer((_) async => mockQuerySnapshot);
+    when(() => mockQuerySnapshot.docs).thenReturn([mockDocumentSnapshot]);
 
     when(() => mockDocumentSnapshot.id).thenReturn('1');
     when(() => mockDocumentSnapshot.data()).thenAnswer((_) {
@@ -62,10 +56,8 @@ void main() {
       return data;
     });
 
-    // Act
     final result = await dataSource.fetch();
 
-    // Assert
     expect(result.length, 1);
     expect(result.first.name, 'User 1');
   });

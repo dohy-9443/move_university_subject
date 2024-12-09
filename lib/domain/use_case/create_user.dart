@@ -1,4 +1,6 @@
+import 'package:move_university_subject/core/exception/exception.dart';
 import 'package:move_university_subject/core/use_case/use_cases.dart';
+import 'package:move_university_subject/core/util/result.dart';
 import 'package:move_university_subject/domain/entity/entity.dart';
 import 'package:move_university_subject/domain/repository/repository.dart';
 
@@ -10,17 +12,20 @@ import 'package:move_university_subject/domain/repository/repository.dart';
 /// Description      : 
 ///
 
-class CreateUserUseCase implements IUseCase<void, CreateUserParams> {
+
+class CreateUserUseCase implements IUseCase<Result<String>, CreateUserParams> {
   final IUserRepository _repository;
 
   CreateUserUseCase(this._repository);
 
   @override
-  Future<void> call(CreateUserParams params) async {
-    final result = await _repository.create(params.user);
-
-    if (result.isFailure) throw Exception(result.error?.message ?? 'USE CASE ERROR');
-    return result.data;
+  Future<Result<String>> call(CreateUserParams params) async {
+    try {
+      await _repository.create(params.user);
+      return Result.success('SUCCESS');
+    } catch (e) {
+      return Result.failure(ServerFailure('USE CASE ERROR : ${e.toString()}'));
+    }
   }
 }
 

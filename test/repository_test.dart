@@ -55,8 +55,7 @@ void main() {
     dataSource = UserRemoteDataSource(mockFirestore);
   });
 
-  test('fetch should return a list of 200 UserModel', () async {
-    // Arrange
+  test('fetch repository test', () async {
     final mockDocs = generateMockQueryDocumentSnapshots();
     when(() => mockCollectionReference.orderBy(any()))
         .thenReturn(mockCollectionReference);
@@ -66,10 +65,8 @@ void main() {
         .thenAnswer((_) async => mockQuerySnapshot);
     when(() => mockQuerySnapshot.docs).thenReturn(mockDocs);
 
-    // Act
     final result = await dataSource.fetch();
 
-    // Assert
     expect(result.length, 200);
     expect(result.first.name, 'User 0');
     expect(result.last.name, 'User 199');

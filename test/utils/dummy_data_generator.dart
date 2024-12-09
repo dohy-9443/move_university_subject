@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:move_university_subject/domain/entity/entity.dart';
 
 ///
 /// @Project name    : move_university_subject
@@ -8,21 +9,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// Description      : 
 ///
 
-Future<void> dummyGenerate(int count) async {
-  final fireStore = FirebaseFirestore.instance;
+final List<Map<String, dynamic>> dummyData = List.generate(200, (index) {
+  return {
+    'id': 'id_$index',
+    'name': 'User $index',
+    'email': 'user$index@example.com',
+    'address': 'Address $index',
+    'createdAt': Timestamp.now(),
+    'updatedAt': Timestamp.now(),
+  };
+});
 
-  for (int i = 0; i < count; i++) {
-    final id = fireStore.collection('users').doc().id;
-    final timestamp = Timestamp.now();
-    final user = {
-      'id': id,
-      'name': 'User $i',
-      'email': 'user_$i@example.com',
-      'address': 'Address $i',
-      'createAt': timestamp,
-      'updateAt': timestamp,
-    };
-
-    await fireStore.collection('users').doc(id).set(user);
-  }
-}
+final List<UserEntity> dummyUserEntities = dummyData.map((data) {
+  return UserEntity(
+    id: data['id'] as String,
+    name: data['name'] as String,
+    email: data['email'] as String,
+    address: data['address'] as String,
+    createdAt: data['createdAt'] as Timestamp,
+    updatedAt: data['updatedAt'] as Timestamp,
+  );
+}).toList();
