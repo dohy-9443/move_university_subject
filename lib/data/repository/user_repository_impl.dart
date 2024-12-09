@@ -32,7 +32,7 @@ class UserRepositoryImpl implements IUserRepository {
   Future<Result<void>> create(UserEntity user) async {
     try {
       await _remoteDataSource.create(user.toModel());
-      return Result.success(null);
+      return Result.success('success');
     } catch (e) {
       return Result.failure(ServerFailure("repository implements create user error : ${e.toString()}"));
     }
@@ -42,7 +42,7 @@ class UserRepositoryImpl implements IUserRepository {
   Future<Result<void>> update(UserEntity user) async {
     try {
       await _remoteDataSource.update(user.toModel());
-      return Result.success(null);
+      return Result.success('success');
     } catch (e) {
       return Result.failure(ServerFailure("repository implements update user error : ${e.toString()}"));
     }
@@ -52,7 +52,7 @@ class UserRepositoryImpl implements IUserRepository {
   Future<Result<void>> delete(String userId) async {
     try {
       await _remoteDataSource.delete(userId);
-      return Result.success(null);
+      return Result.success('success');
     } catch (e) {
       return Result.failure(ServerFailure("repository implements delete user error : ${e.toString()}"));
     }
