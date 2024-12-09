@@ -6,6 +6,11 @@
     - flutter_riverpod: ^2.3.0
     - cloud_firestore: ^4.8.0
     - firebase_core: ^3.8.1
+- dev_dependencies:
+    - mocktail: ^1.0.4
+    - mockito: ^5.3.2
+    - firebase_core: ^3.8.1
+    - fake_cloud_firestore: ^3.1.0
 
 ```
 
@@ -13,6 +18,7 @@
 ```
 lib
 ┣ core
+┃ ┣ di
 ┃ ┣ exception
 ┃ ┣ use_case
 ┃ ┗ util
