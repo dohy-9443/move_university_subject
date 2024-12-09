@@ -12,4 +12,7 @@ import 'package:move_university_subject/domain/entity/entity.dart';
 
 abstract class IUserRepository {
   Future<Result<List<UserEntity>>> fetch({DocumentSnapshot? startAfter});
+  Future<Result<void>> create(UserEntity user);
+  Future<Result<void>> update(UserEntity user);
+  Future<Result<void>> delete(String userId);
 }
