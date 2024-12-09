@@ -21,8 +21,10 @@ class UserRepositoryImpl implements IUserRepository {
   @override
   Future<Result<List<UserEntity>>> fetch({DocumentSnapshot<Object?>? startAfter}) async {
     try {
-      final users = await _remoteDataSource.fetch(startAfter: startAfter);
-      return Result.success(users.map((model) => model.toEntity()).toList());
+      final userModels = await _remoteDataSource.fetch(startAfter: startAfter);
+      final userEntities = userModels.map((model) => model.toEntity()).toList();
+
+      return Result.success(userEntities);
     } catch (e) {
       return Result.failure(ServerFailure('repository implements user fetch error : ${e.toString()}'));
     }

@@ -29,5 +29,5 @@ class GetUserUseCase implements IUseCase<List<UserEntity>, GetUsersParams> {
 class GetUsersParams {
   final DocumentSnapshot? startAfter;
 
-  GetUsersParams(this.startAfter);
+  GetUsersParams({this.startAfter});
 }

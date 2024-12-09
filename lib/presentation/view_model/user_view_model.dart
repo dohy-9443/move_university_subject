@@ -24,16 +24,36 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
     required this.deleteUserUseCase
   }) : super(const AsyncValue.loading());
 
-  Future<void> getUser({DocumentSnapshot? startAfter}) async {
-    state = const AsyncValue.loading();
+  DocumentSnapshot? lastDocument; // 마지막 문서 추적
+  bool isFetching = false; // 중복 호출 방지
 
-    try {
-      final users = await getUserUseCase(GetUsersParams(startAfter));
-      state = AsyncValue.data(users);
-    } catch (e, stack) {
-      state = AsyncValue.error(e, stack);
+  Future<void> fetchUsers({bool isRefresh = false}) async {
+    if (isFetching) return;
+    isFetching = true;
+
+    if (isRefresh) {
+      state = const AsyncValue.loading();
+      lastDocument = null;
     }
 
+    try {
+      final users = await getUserUseCase(GetUsersParams(startAfter: lastDocument));
+
+      if (isRefresh) {
+        state = AsyncValue.data(users);
+      } else {
+        final currentUsers = state.value ?? [];
+        state = AsyncValue.data([...currentUsers, ...users]);
+      }
+
+      if (users.isNotEmpty) {
+        lastDocument = users.last.createdAt as DocumentSnapshot;
+      }
+    } catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+    } finally {
+      isFetching = false;
+    }
   }
 
   Future<void> addUser(UserEntity user) async {
@@ -41,7 +61,7 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
     try {
       await createUserUseCase(CreateUserParams(user));
-      await getUser();
+      await fetchUsers(isRefresh: true);
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }
@@ -52,7 +72,7 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
     try {
       await updateUserUseCase(UpdateUserParams(user));
-      await getUser();
+      await fetchUsers(isRefresh: true);
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }
@@ -63,7 +83,7 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
     try {
       await deleteUserUseCase(DeleteUserParams(userId));
-      await getUser();
+      await fetchUsers(isRefresh: true);
     } catch (e, stack) {
       state = AsyncValue.error(e, stack);
     }
