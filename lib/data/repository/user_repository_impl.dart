@@ -1,9 +1,7 @@
 ///
 /// @Project name    : move_university_subject
-/// @Class           : entity.
+/// @Class           : user_repository_impl.
 /// @Created by      : baekdonghyun.
 /// Created On       : 2024. 12. 9..
 /// Description      : 
 ///
-
-export 'user.dart';

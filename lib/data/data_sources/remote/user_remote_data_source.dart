@@ -14,9 +14,9 @@ class UserRemoteDataSource {
 
   UserRemoteDataSource(this._fireStore);
 
-  Future<List<UserModel>> fetch({ DocumentSnapshot? start, int limit = 10 }) async {
+  Future<List<UserModel>> fetch({ DocumentSnapshot? startAfter, int limit = 10 }) async {
     final query = _fireStore.collection('users').limit(limit);
-    final snapshot = start == null ? await query.get() : await query.startAfterDocument(start).get();
+    final snapshot = startAfter == null ? await query.get() : await query.startAfterDocument(startAfter).get();
 
     return snapshot.docs.map((doc) => UserModel.fromFirestore(doc)).toList();
   }
