@@ -7,4 +7,5 @@
 ///
 
 export 'convert.dart';
+export 'extension.dart';
 export 'result.dart';

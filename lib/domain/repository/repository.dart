@@ -5,3 +5,5 @@
 /// Created On       : 2024. 12. 9..
 /// Description      : 
 ///
+
+export 'user_repository.dart';
