@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:move_university_subject/core/di/dependency_injection.dart';
 import 'package:move_university_subject/core/util/util.dart';
 import 'package:move_university_subject/domain/entity/entity.dart';
+import 'package:move_university_subject/presentation/view/widget/widget.dart';
 
 ///
 /// @Project name    : move_university_subject
@@ -18,7 +19,7 @@ import 'package:move_university_subject/domain/entity/entity.dart';
 class UserDetailScreen extends ConsumerWidget {
   final UserEntity user;
 
-  const UserDetailScreen({Key? key, required this.user}) : super(key: key);
+  const UserDetailScreen({super.key, required this.user});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,7 +36,7 @@ class UserDetailScreen extends ConsumerWidget {
           IconButton(
             onPressed: () async {
               await userViewModel.removeUser(user.id);
-              Navigator.pop(context);
+              Navigator.of(context).pop();
             },
             icon: const Icon(Icons.delete),
           ),
@@ -52,29 +53,20 @@ class UserDetailScreen extends ConsumerWidget {
                 child: Text(user.name[0]),
               ),
             ),
-            const SizedBox(height: 16),
-            TextFormField(
+            const Gap(height: 16,),
+            TextInput(
               controller: nameController,
-              decoration: InputDecoration(
-                labelText: 'Name',
-                errorText: nameController.text.isEmpty ? '필수 입력 사항입니다.' : null,
-              ),
+              labelText: 'Name',
             ),
-            TextFormField(
+            TextInput(
               controller: emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                errorText: emailController.text.isEmpty ? '필수 입력 사항입니다.' : null,
-              ),
+              labelText: 'Email',
             ),
-            TextFormField(
+            TextInput(
               controller: addressController,
-              decoration: InputDecoration(
-                labelText: 'Address',
-                errorText: addressController.text.isEmpty ? '필수 입력 사항입니다.' : null,
-              ),
+              labelText: 'Address',
             ),
-            const SizedBox(height: 16),
+            const Gap(height: 16,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -82,7 +74,7 @@ class UserDetailScreen extends ConsumerWidget {
                 buildDateInfo('Updated At', user.updatedAt),
               ],
             ),
-            const SizedBox(height: 16),
+            const Gap(height: 16,),
             ElevatedButton(
               onPressed: () {
                 if (nameController.text.isEmpty ||
@@ -95,7 +87,7 @@ class UserDetailScreen extends ConsumerWidget {
                       content: const Text('모든 필드를 입력해야 합니다.'),
                       actions: [
                         TextButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => Navigator.of(context).pop(),
                           child: const Text('확인'),
                         ),
                       ],
