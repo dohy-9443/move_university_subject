@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:move_university_subject/core/di/dependency_injection.dart';
+import 'package:move_university_subject/core/util/util.dart';
 import 'package:move_university_subject/domain/entity/entity.dart';
 
 ///
@@ -72,6 +73,14 @@ class UserDetailScreen extends ConsumerWidget {
                 labelText: 'Address',
                 errorText: addressController.text.isEmpty ? '필수 입력 사항입니다.' : null,
               ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildDateInfo('Created At', user.createdAt),
+                buildDateInfo('Updated At', user.updatedAt),
+              ],
             ),
             const SizedBox(height: 16),
             ElevatedButton(
