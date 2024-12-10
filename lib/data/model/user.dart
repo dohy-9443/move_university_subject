@@ -27,11 +27,11 @@ class UserModel{
 
   Map<String, dynamic> toJson() {
     return {
-     'id': id,
-     'name': name,
-     'email': email,
-     'address': address,
-     'createdAt': createdAt,
+      'id': id,
+      'name': name,
+      'email': email,
+      'address': address,
+      'createdAt': createdAt,
       'updatedAt': updatedAt,
     };
   }
@@ -50,7 +50,7 @@ class UserModel{
   factory UserModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data();
     if (data == null) {
-      throw Exception('Document data is null for id: ${doc.id}');
+      throw Exception('Model fromFirestore : Document data is null for id: ${doc.id}');
     }
 
     return UserModel(
