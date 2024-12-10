@@ -23,17 +23,14 @@ class _UserScreenState extends ConsumerState<UserScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     ref.read(userViewModelProvider.notifier).fetchUsers();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("시작3");
     final userViewModel = ref.watch(userViewModelProvider.notifier);
     final usersState = ref.watch(userViewModelProvider);
-    print("시작4");
     print("usersState : ${usersState.isLoading}");
     return Scaffold(
       appBar: AppBar(
@@ -41,43 +38,20 @@ class _UserScreenState extends ConsumerState<UserScreen> {
       ),
       body: usersState.when(
         data: (users) {
-          print('시작5');
           if (users.isEmpty) {
-            print('시작6');
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.people_alt_outlined,
-                    size: 80,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(height: 16,),
-                  const Text(
-                    '회원이 없습니다.',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => CreateUserDialog(userViewModel: userViewModel),
-                      );
-                    },
-                    child: const Text('첫 회원을 추가 하세요.'),
-                  ),
-                ],
-              ),
+            return EmptyScreen(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => CreateUserDialog(userViewModel: userViewModel),
+                );
+              },
             );
           }
 
-          print('시작6');
           return NotificationListener<ScrollNotification>(
             onNotification: (notification) {
+              // 스크롤이 하단에 위치할 쯤 호출
               if (notification.metrics.pixels >= notification.metrics.maxScrollExtent - 200) {
                 userViewModel.fetchUsers();
               }
@@ -87,35 +61,19 @@ class _UserScreenState extends ConsumerState<UserScreen> {
               itemCount: users.length,
               itemBuilder: (context, index) {
                 final user = users[index];
-                return Dismissible(
-                  key: Key(user.id),
+                return ListItem(
+                  user: user,
                   onDismissed: (direction) async {
                     await userViewModel.removeUser(user.id);
                   },
-                  background: Container(
-                    color: Colors.red,
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: const Icon(Icons.delete, color: Colors.white),
-                  ),
-                  child: ListTile(
-                    leading: Hero(
-                      tag: user.id,
-                      child: CircleAvatar(
-                        child: Text(user.name[0]),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => UserDetailScreen(user: user),
                       ),
-                    ),
-                    title: Text(user.name),
-                    subtitle: Text(user.email),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => UserDetailScreen(user: user),
-                        ),
-                      );
-                    },
-                  ),
+                    );
+                  },
                 );
               },
             ),
