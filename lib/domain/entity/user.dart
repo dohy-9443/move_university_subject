@@ -24,4 +24,22 @@ class UserEntity {
     required this.createdAt,
     required this.updatedAt,
   });
+
+  UserEntity copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? address,
+    Timestamp? createdAt,
+    Timestamp? updatedAt,
+  }) {
+    return UserEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      address: address ?? this.address,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 }

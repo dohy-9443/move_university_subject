@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:move_university_subject/presentation/view/screen/screen.dart';
 
 ///
 /// @Project name    : move_university_subject
@@ -14,11 +15,10 @@ class MoveUniversityApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("시작2");
     return ProviderScope(
       child: MaterialApp(
-        home: Scaffold(
-          body: Container(),
-        ),
+        home: UserScreen(),
       ),
     );
   }
