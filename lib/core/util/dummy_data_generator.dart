@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 ///
 /// @Project name    : move_university_subject
@@ -12,7 +13,7 @@ Future<void> addTestData() async {
   final firestore = FirebaseFirestore.instance;
   final usersCollection = firestore.collection('users');
 
-  for (int i = 0; i < 200; i++) {
+  for (int i = 0; i < 100; i++) {
     await usersCollection.add({
       'id': 'id_$i',
       'name': 'User $i',
@@ -23,5 +24,5 @@ Future<void> addTestData() async {
     });
   }
 
-  print('200개의 테스트 데이터가 추가되었습니다.');
+  debugPrint('200개의 테스트 데이터가 추가되었습니다.');
 }

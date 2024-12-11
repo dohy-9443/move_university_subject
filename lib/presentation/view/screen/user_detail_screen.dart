@@ -55,8 +55,9 @@ class _UserDetailScreenState extends ConsumerState<UserDetailScreen> {
         actions: [
           IconButton(
             onPressed: () async {
+              final navigator = Navigator.of(context);
               await userViewModel.removeUser(widget.user.id);
-              Navigator.of(context).pop();
+              navigator.pop();
             },
             icon: const Icon(Icons.delete),
           ),

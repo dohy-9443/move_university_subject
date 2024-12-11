@@ -56,7 +56,7 @@ void main() {
     );
   });
 
-  List<UserEntity> _generateDummyUsers({int count = 10}) {
+  List<UserEntity> generateDummyUsers({int count = 10}) {
     return List.generate(
         count,
         (index) {
@@ -72,18 +72,9 @@ void main() {
     );
   }
 
-  Matcher asyncValueMatcher(List<UserEntity> expected) {
-    return predicate<AsyncValue<List<UserEntity>>>((value) {
-      if (value is AsyncData<List<UserEntity>>) {
-        return value.value == expected;
-      }
-      return false;
-    });
-  }
-
   group('fetchUsers', () {
     test('fetch user data test success', () async {
-      final dummyUsers = _generateDummyUsers();
+      final dummyUsers = generateDummyUsers();
 
       when(() => mockGetUserUseCase.call(any())).thenAnswer((_) async => dummyUsers);
 
@@ -105,7 +96,7 @@ void main() {
 
   group('addUser', () {
     test('create user test success', () async {
-      final newUser = _generateDummyUsers(count: 1).first;
+      final newUser = generateDummyUsers(count: 1).first;
 
       when(() => mockCreateUserUseCase.call(any())).thenAnswer((_) async => Result.success('SUCCESS'));
       when(() => mockGetUserUseCase.call(any())).thenAnswer((_) async => []);
@@ -118,7 +109,7 @@ void main() {
     });
 
     test('create user test error', () async {
-      final newUser = _generateDummyUsers(count: 1).first;
+      final newUser = generateDummyUsers(count: 1).first;
 
       when(() => mockCreateUserUseCase.call(any())).thenThrow(Exception('Failed to create user'));
 
@@ -131,7 +122,7 @@ void main() {
 
   group('editUser', () {
     test('update user test success', () async {
-      final updatedUser = _generateDummyUsers(count: 1).first;
+      final updatedUser = generateDummyUsers(count: 1).first;
 
       when(() => mockUpdateUserUseCase.call(any())).thenAnswer((_) async => Result.success('SUCCESS'));
       when(() => mockGetUserUseCase.call(any())).thenAnswer((_) async => []);
@@ -144,7 +135,7 @@ void main() {
     });
 
     test('update user test error', () async {
-      final updatedUser = _generateDummyUsers(count: 1).first;
+      final updatedUser = generateDummyUsers(count: 1).first;
 
       when(() => mockUpdateUserUseCase.call(any())).thenThrow(Exception('Failed to update user'));
 

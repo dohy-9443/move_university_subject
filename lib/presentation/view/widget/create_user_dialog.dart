@@ -14,7 +14,7 @@ import 'package:move_university_subject/presentation/view_model/user_view_model.
 class CreateUserDialog extends StatelessWidget {
   final UserViewModel userViewModel;
 
-  const CreateUserDialog({Key? key, required this.userViewModel}) : super(key: key);
+  const CreateUserDialog({super.key, required this.userViewModel});
 
   @override
   Widget build(BuildContext context) {

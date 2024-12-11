@@ -51,7 +51,7 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
       final List<UserEntity> updatedUsers = isRefresh ? users : [...(state.value ?? []), ...users];
 
-      print("갯수 : ${updatedUsers.length}");
+      debugPrint("갯수 : ${updatedUsers.length}");
 
       updatedUsers.sort((a, b) => b.updatedAt.compareTo(a.updatedAt)); // 최신순 정렬
       state = AsyncValue.data(updatedUsers);

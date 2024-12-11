@@ -1,11 +1,3 @@
-///
-/// @Project name    : move_university_subject
-/// @Class           : failure.
-/// @Created by      : baekdonghyun.
-/// Created On       : 2024. 12. 9..
-/// Description      : 
-///
-
 abstract class IFailure {
   final String message;
 
@@ -13,5 +5,5 @@ abstract class IFailure {
 }
 
 class ServerFailure extends IFailure {
-  const ServerFailure(String message) : super(message);
+  const ServerFailure(super.message);
 }

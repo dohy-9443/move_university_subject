@@ -15,7 +15,7 @@ void main() {
   runZonedGuarded(() async {
     await _initializeApp();
     _setupFlutterErrorHandling();
-    runApp(ProviderScope(child: const MoveUniversityApp()));
+    runApp(const ProviderScope(child: MoveUniversityApp()));
   }, _handleUncaughtError,);
 }
 
@@ -26,7 +26,7 @@ Future<void> _initializeApp() async {
   await Firebase.initializeApp(
     options: FirebaseConfig.options,
   );
-  // await addTestData(); 테스트용 데이터 생성
+  // await addTestData(); // 테스트용 데이터 생성
   await initializeDateFormatting('ko', null);
   log('앱 초기화 완료');
 }

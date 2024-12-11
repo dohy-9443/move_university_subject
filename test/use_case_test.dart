@@ -64,7 +64,7 @@ void main() {
       updatedAt: Timestamp.now(),
     );
 
-    when(() => mockRepository.create(any())).thenAnswer((_) async => Result.success('SUCCESS'));
+    when(() => mockRepository.create(any())).thenAnswer((_) async => Result.success(null));
 
     final result = await createUserUseCase(CreateUserParams(newUser));
 
@@ -103,7 +103,7 @@ void main() {
       updatedAt: Timestamp.now(),
     );
 
-    when(() => mockRepository.update(any())).thenAnswer((_) async => Result.success('SUCCESS'));
+    when(() => mockRepository.update(any())).thenAnswer((_) async => Result.success(null));
 
     // Act
     final result = await updateUserUseCase(UpdateUserParams(updatedUser));
@@ -137,7 +137,7 @@ void main() {
   test('DeleteUserUseCase test success', () async {
     const userId = 'id_1';
 
-    when(() => mockRepository.delete(any())).thenAnswer((_) async => Result.success('SUCCESS'));
+    when(() => mockRepository.delete(any())).thenAnswer((_) async => Result.success(null));
 
     final result = await deleteUserUseCase(DeleteUserParams(userId));
 

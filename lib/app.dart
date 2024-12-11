@@ -26,7 +26,7 @@ class MoveUniversityApp extends ConsumerWidget {
       theme: lightTheme, // 라이트 모드 테마
       darkTheme: darkTheme, // 다크 모드 테마
       themeMode: themeMode, // 현재 테마 모드
-      home: UserScreen(),
+      home: const UserScreen(),
     );
   }
 }

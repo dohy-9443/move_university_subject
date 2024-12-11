@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:move_university_subject/data/data_sources/remote/remote.dart';
@@ -52,7 +53,7 @@ void main() {
         'createdAt': Timestamp.now(),
         'updatedAt': Timestamp.now(),
       };
-      print('Mock data returned: $data');
+      debugPrint('Mock data returned: $data');
       return data;
     });
 
