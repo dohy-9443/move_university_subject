@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:move_university_subject/core/di/dependency_injection.dart';
 import 'package:move_university_subject/core/util/util.dart';
@@ -45,6 +46,7 @@ class _UserDetailScreenState extends ConsumerState<UserDetailScreen> {
     final userViewModel = ref.watch(userViewModelProvider.notifier);
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text(
           '회원 관리',
@@ -63,61 +65,73 @@ class _UserDetailScreenState extends ConsumerState<UserDetailScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Hero(
-                tag: widget.user.id,
-                child: CircleAvatar(
-                  radius: 40,
-                  child: Text(widget.user.name[0]),
+      body: KeyboardVisibilityBuilder(
+        builder: (context, isKeyboardVisible) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 16,
+                left: 16,
+                right: 16,
+                bottom: 16,
+                // bottom: isKeyboardVisible ? MediaQuery.of(context).viewInsets.bottom -16 : 16,
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Hero(
+                      tag: widget.user.id,
+                      child: CircleAvatar(
+                        radius: 40,
+                        child: Text(widget.user.name[0]),
+                      ),
+                    ),
+                    const Gap(height: 16,),
+                    TextInput(
+                      controller: nameController,
+                      labelText: 'Name',
+                    ),
+                    const Gap(height: 16,),
+                    TextInput(
+                      controller: emailController,
+                      labelText: 'Email',
+                    ),
+                    const Gap(height: 16,),
+                    TextInput(
+                      controller: addressController,
+                      labelText: 'Address',
+                    ),
+                    const Gap(height: 16,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        buildDateInfo('Created At', widget.user.createdAt),
+                        buildDateInfo('Updated At', widget.user.updatedAt),
+                      ],
+                    ),
+                    const Gap(height: 16,),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          final updatedUser = widget.user.copyWith(
+                            name: nameController.text,
+                            email: emailController.text,
+                            address: addressController.text,
+                            updatedAt: Timestamp.now(),
+                          );
+                          userViewModel.editUser(updatedUser);
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: const Text('수정'),
+                    ),
+                  ],
                 ),
               ),
-              const Gap(height: 16,),
-              TextInput(
-                controller: nameController,
-                labelText: 'Name',
-              ),
-              const Gap(height: 16,),
-              TextInput(
-                controller: emailController,
-                labelText: 'Email',
-              ),
-              const Gap(height: 16,),
-              TextInput(
-                controller: addressController,
-                labelText: 'Address',
-              ),
-              const Gap(height: 16,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildDateInfo('Created At', widget.user.createdAt),
-                  buildDateInfo('Updated At', widget.user.updatedAt),
-                ],
-              ),
-              const Gap(height: 16,),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    final updatedUser = widget.user.copyWith(
-                      name: nameController.text,
-                      email: emailController.text,
-                      address: addressController.text,
-                      updatedAt: Timestamp.now(),
-                    );
-                    userViewModel.editUser(updatedUser);
-                    Navigator.pop(context);
-                  }
-                },
-                child: const Text('수정'),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        }
       ),
     );
   }

@@ -36,6 +36,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
     final isDarkMode = ref.watch(themeProvider) == ThemeMode.dark;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text(
           '회원 관리',
