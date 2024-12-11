@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:move_university_subject/core/util/util.dart';
 
 ///
 /// @Project name    : move_university_subject
@@ -22,6 +23,7 @@ class TextInput extends StatelessWidget {
         border: const OutlineInputBorder(),
       ),
       maxLength: labelText == 'Name' ? 20 : null,
+      keyboardType: keyboardType(labelText!),
       validator: (value) {
         if (labelText == 'Name') {
           if (value == null || value.isEmpty) {

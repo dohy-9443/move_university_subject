@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:move_university_subject/core/util/util.dart';
 import 'package:move_university_subject/domain/entity/entity.dart';
 import 'package:move_university_subject/presentation/view_model/user_view_model.dart';
 
@@ -38,6 +39,7 @@ class CreateUserDialog extends StatelessWidget {
                     controller: nameController,
                     maxLength: 20,
                     decoration: const InputDecoration(labelText: 'Name'),
+                    keyboardType: keyboardType('Name'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return '이름을 작성해주세요.';
@@ -51,6 +53,7 @@ class CreateUserDialog extends StatelessWidget {
                   TextFormField(
                     controller: emailController,
                     decoration: const InputDecoration(labelText: 'Email'),
+                    keyboardType: keyboardType('Email'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return '이메일을 입력해주세요.';
@@ -67,6 +70,7 @@ class CreateUserDialog extends StatelessWidget {
                   TextFormField(
                     controller: addressController,
                     decoration: const InputDecoration(labelText: 'Address'),
+                    keyboardType: keyboardType('Address'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return '주소를 입력해주세요.';
