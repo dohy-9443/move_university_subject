@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:move_university_subject/core/di/di.dart';
 import 'package:move_university_subject/presentation/view/screen/user_detail_screen.dart';
 import 'package:move_university_subject/presentation/view/widget/widget.dart';
+import 'package:move_university_subject/presentation/view_model/theme_provider.dart';
 
 ///
 /// @Project name    : move_university_subject
@@ -31,10 +32,23 @@ class _UserScreenState extends ConsumerState<UserScreen> {
   Widget build(BuildContext context) {
     final userViewModel = ref.watch(userViewModelProvider.notifier);
     final usersState = ref.watch(userViewModelProvider);
-    print("usersState : ${usersState.isLoading}");
+    final themeNotifier = ref.read(themeProvider.notifier);
+    final isDarkMode = ref.watch(themeProvider) == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('회원 관리'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              isDarkMode ? Icons.nightlight_round : Icons.wb_sunny,
+              color: isDarkMode ? Colors.grey : Colors.yellow,
+            ),
+            onPressed: () {
+              themeNotifier.toggleTheme();
+            },
+          ),
+        ],
       ),
       body: usersState.when(
         data: (users) {
