@@ -19,8 +19,40 @@ class TextInput extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        errorText: controller.text.isEmpty ? '필수 입력 사항입니다.' : null,
+        border: const OutlineInputBorder(),
       ),
+      maxLength: labelText == 'Name' ? 20 : null,
+      validator: (value) {
+        if (labelText == 'Name') {
+          if (value == null || value.isEmpty) {
+            return '이름을 입력해주세요.';
+          }
+          if (value.length > 20) {
+            return '이름을 20자 미만으로 작성해주세요.';
+          }
+          return null;
+        }
+
+        if (labelText == 'Email') {
+          if (value == null || value.isEmpty) {
+            return '이메일을 입력해주세요.';
+          }
+          // 이메일 유효성 검사
+          final emailRegex = RegExp(
+              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+          if (!emailRegex.hasMatch(value)) {
+            return '이메일 형식에 맞게 입력해주세요.';
+          }
+          return null;
+        }
+
+        if (labelText == 'Address') {
+          if (value == null || value.isEmpty) {
+            return '주소를 입력하세요.';
+          }
+          return null;
+        }
+      },
     );
   }
 }

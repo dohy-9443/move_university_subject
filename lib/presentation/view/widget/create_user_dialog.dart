@@ -32,10 +32,14 @@ class CreateUserDialog extends StatelessWidget {
           children: [
             TextFormField(
               controller: nameController,
+              maxLength: 20,
               decoration: const InputDecoration(labelText: 'Name'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Name is required';
+                  return '이름을 작성해주세요.';
+                }
+                if (value.length > 20) {
+                  return '20자 이상 넘어가면 안 됩니다.';
                 }
                 return null;
               },
@@ -45,7 +49,13 @@ class CreateUserDialog extends StatelessWidget {
               decoration: const InputDecoration(labelText: 'Email'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Email is required';
+                  return '이메일을 입력해주세요.';
+                }
+                // 이메일 유효성 검사
+                final emailRegex = RegExp(
+                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                if (!emailRegex.hasMatch(value)) {
+                  return '이메일 형식에 맞게 작성해주세요.';
                 }
                 return null;
               },
@@ -55,7 +65,7 @@ class CreateUserDialog extends StatelessWidget {
               decoration: const InputDecoration(labelText: 'Address'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Address is required';
+                  return '주소를 입력해주세요.';
                 }
                 return null;
               },

@@ -16,26 +16,46 @@ import 'package:move_university_subject/presentation/view/widget/widget.dart';
 
 
 
-class UserDetailScreen extends ConsumerWidget {
+class UserDetailScreen extends ConsumerStatefulWidget {
   final UserEntity user;
 
   const UserDetailScreen({super.key, required this.user});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userViewModel = ref.watch(userViewModelProvider.notifier);
+  ConsumerState<UserDetailScreen> createState() => _UserDetailScreenState();
+}
 
-    final nameController = TextEditingController(text: user.name);
-    final emailController = TextEditingController(text: user.email);
-    final addressController = TextEditingController(text: user.address);
+class _UserDetailScreenState extends ConsumerState<UserDetailScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController addressController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(text: widget.user.name);
+    emailController = TextEditingController(text: widget.user.email);
+    addressController = TextEditingController(text: widget.user.address);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final userViewModel = ref.watch(userViewModelProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Detail'),
+        title: const Text(
+          '회원 관리',
+          style: TextStyle(
+            fontSize: 24,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () async {
-              await userViewModel.removeUser(user.id);
+              await userViewModel.removeUser(widget.user.id);
               Navigator.of(context).pop();
             },
             icon: const Icon(Icons.delete),
@@ -44,72 +64,58 @@ class UserDetailScreen extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Hero(
-              tag: user.id,
-              child: CircleAvatar(
-                radius: 40,
-                child: Text(user.name[0]),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Hero(
+                tag: widget.user.id,
+                child: CircleAvatar(
+                  radius: 40,
+                  child: Text(widget.user.name[0]),
+                ),
               ),
-            ),
-            const Gap(height: 16,),
-            TextInput(
-              controller: nameController,
-              labelText: 'Name',
-            ),
-            TextInput(
-              controller: emailController,
-              labelText: 'Email',
-            ),
-            TextInput(
-              controller: addressController,
-              labelText: 'Address',
-            ),
-            const Gap(height: 16,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buildDateInfo('Created At', user.createdAt),
-                buildDateInfo('Updated At', user.updatedAt),
-              ],
-            ),
-            const Gap(height: 16,),
-            ElevatedButton(
-              onPressed: () {
-                if (nameController.text.isEmpty ||
-                    emailController.text.isEmpty ||
-                    addressController.text.isEmpty) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('입력 오류'),
-                      content: const Text('모든 필드를 입력해야 합니다.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text('확인'),
-                        ),
-                      ],
-                    ),
-                  );
-                  return;
-                }
-
-                final updatedUser = UserEntity(
-                  id: user.id,
-                  name: nameController.text,
-                  email: emailController.text,
-                  address: addressController.text,
-                  createdAt: user.createdAt,
-                  updatedAt: Timestamp.now(),
-                );
-                userViewModel.editUser(updatedUser);
-                Navigator.pop(context);
-              },
-              child: const Text('수정'),
-            ),
-          ],
+              const Gap(height: 16,),
+              TextInput(
+                controller: nameController,
+                labelText: 'Name',
+              ),
+              const Gap(height: 16,),
+              TextInput(
+                controller: emailController,
+                labelText: 'Email',
+              ),
+              const Gap(height: 16,),
+              TextInput(
+                controller: addressController,
+                labelText: 'Address',
+              ),
+              const Gap(height: 16,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildDateInfo('Created At', widget.user.createdAt),
+                  buildDateInfo('Updated At', widget.user.updatedAt),
+                ],
+              ),
+              const Gap(height: 16,),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    final updatedUser = widget.user.copyWith(
+                      name: nameController.text,
+                      email: emailController.text,
+                      address: addressController.text,
+                      updatedAt: Timestamp.now(),
+                    );
+                    userViewModel.editUser(updatedUser);
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text('수정'),
+              ),
+            ],
+          ),
         ),
       ),
     );

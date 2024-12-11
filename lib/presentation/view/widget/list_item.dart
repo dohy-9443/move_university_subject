@@ -26,16 +26,34 @@ class ListItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: const Icon(Icons.delete, color: Colors.white),
       ),
-      child: ListTile(
-        leading: Hero(
-          tag: user.id,
-          child: CircleAvatar(
-            child: Text(user.name[0]),
+      child: Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 1
+            ),
           ),
         ),
-        title: Text(user.name),
-        subtitle: Text(user.email),
-        onTap: onTap,
+        child: ListTile(
+          leading: Hero(
+            tag: user.id,
+            child: CircleAvatar(
+              child: Text(user.name[0]),
+            ),
+          ),
+          title: Text(
+            '이름 : ${user.name}',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Text(
+            '이메일 : ${user.email}',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          onTap: onTap,
+        ),
       ),
     );
   }

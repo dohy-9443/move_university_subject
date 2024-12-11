@@ -37,7 +37,12 @@ class _UserScreenState extends ConsumerState<UserScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('회원 관리'),
+        title: const Text(
+          '회원 관리',
+          style: TextStyle(
+            fontSize: 24,
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(
