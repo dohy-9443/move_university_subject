@@ -76,30 +76,36 @@ class _UserScreenState extends ConsumerState<UserScreen> {
               }
               return true;
             },
-            child: ListView.builder(
-              itemCount: users.length,
-              itemBuilder: (context, index) {
-                final user = users[index];
-                return ListItem(
-                  user: user,
-                  onDismissed: (direction) async {
-                    await userViewModel.removeUser(user.id);
-                  },
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => UserDetailScreen(user: user),
-                      ),
-                    );
-                  },
-                );
-              },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListView.separated(
+                itemCount: users.length,
+                itemBuilder: (context, index) {
+                  final user = users[index];
+                  return ListItem(
+                    user: user,
+                    onDismissed: (direction) async {
+                      await userViewModel.removeUser(user.id);
+                    },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => UserDetailScreen(user: user),
+                        ),
+                      );
+                    },
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Gap(height: 8,);
+                },
+              ),
             ),
           );
         },
         error: (err, stack) {
-          print('err : $err');
+          debugPrint('err : $err');
           return Center(
             child: Text(err.toString()),
           );
@@ -109,6 +115,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        shape: const StadiumBorder(),
         onPressed: () {
           showDialog(
             context: context,
