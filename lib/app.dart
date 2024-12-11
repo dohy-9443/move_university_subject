@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:move_university_subject/core/util/util.dart';
 import 'package:move_university_subject/presentation/view/screen/screen.dart';
 
 ///
@@ -15,9 +16,10 @@ class MoveUniversityApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("시작2");
     return ProviderScope(
       child: MaterialApp(
+        navigatorKey: navigatorKey,
+        title: 'Move University',
         home: UserScreen(),
       ),
     );

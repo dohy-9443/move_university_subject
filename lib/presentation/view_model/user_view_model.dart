@@ -51,6 +51,8 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
       final List<UserEntity> updatedUsers = isRefresh ? users : [...(state.value ?? []), ...users];
 
+      print("갯수 : ${updatedUsers.length}");
+
       updatedUsers.sort((a, b) => b.updatedAt.compareTo(a.updatedAt)); // 최신순 정렬
       state = AsyncValue.data(updatedUsers);
 
@@ -118,7 +120,7 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
       newUsers.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
       state = AsyncValue.data(newUsers);
-
+      await fetchUsers(isRefresh: true);
     } catch (e, stack) {
       debugPrint('addUser 에러: $e');
       state = AsyncValue.error(e, stack);
@@ -138,6 +140,7 @@ class UserViewModel extends StateNotifier<AsyncValue<List<UserEntity>>> {
 
       updatedUsers.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
       state = AsyncValue.data(updatedUsers);
+      await fetchUsers(isRefresh: true);
     } catch (e, stack) {
       debugPrint('editUser 에러: $e');
       state = AsyncValue.error(e, stack);
