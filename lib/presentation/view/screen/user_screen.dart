@@ -32,8 +32,12 @@ class _UserScreenState extends ConsumerState<UserScreen> {
   Widget build(BuildContext context) {
     final userViewModel = ref.watch(userViewModelProvider.notifier);
     final usersState = ref.watch(userViewModelProvider);
-    final themeNotifier = ref.read(themeProvider.notifier);
-    final isDarkMode = ref.watch(themeProvider) == ThemeMode.dark;
+    final themeNotifier = ref.watch(themeProvider.notifier);
+
+    final currentTheme = ref.watch(themeProvider);
+    final platformBrightness = MediaQuery.of(context).platformBrightness;
+    final isDarkMode = currentTheme == ThemeMode.dark ||
+        (currentTheme == ThemeMode.system && platformBrightness == Brightness.dark);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -51,7 +55,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
               color: isDarkMode ? Colors.grey : Colors.yellow,
             ),
             onPressed: () {
-              themeNotifier.toggleTheme();
+              themeNotifier.toggleTheme(context);
             },
           ),
         ],
