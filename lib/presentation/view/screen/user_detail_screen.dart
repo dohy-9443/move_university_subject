@@ -42,6 +42,14 @@ class _UserDetailScreenState extends ConsumerState<UserDetailScreen> {
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    addressController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final userViewModel = ref.watch(userViewModelProvider.notifier);
 
@@ -65,67 +73,63 @@ class _UserDetailScreenState extends ConsumerState<UserDetailScreen> {
           ),
         ],
       ),
-      body: KeyboardVisibilityBuilder(
-        builder: (context, isKeyboardVisible) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Form(
-                key: _formKey,
-                child: Column(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Hero(
+                  tag: widget.user.id,
+                  child: CircleAvatar(
+                    radius: 40,
+                    child: Text(widget.user.name[0]),
+                  ),
+                ),
+                const Gap(height: 16,),
+                TextInput(
+                  controller: nameController,
+                  labelText: 'Name',
+                ),
+                const Gap(height: 16,),
+                TextInput(
+                  controller: emailController,
+                  labelText: 'Email',
+                ),
+                const Gap(height: 16,),
+                TextInput(
+                  controller: addressController,
+                  labelText: 'Address',
+                ),
+                const Gap(height: 16,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Hero(
-                      tag: widget.user.id,
-                      child: CircleAvatar(
-                        radius: 40,
-                        child: Text(widget.user.name[0]),
-                      ),
-                    ),
-                    const Gap(height: 16,),
-                    TextInput(
-                      controller: nameController,
-                      labelText: 'Name',
-                    ),
-                    const Gap(height: 16,),
-                    TextInput(
-                      controller: emailController,
-                      labelText: 'Email',
-                    ),
-                    const Gap(height: 16,),
-                    TextInput(
-                      controller: addressController,
-                      labelText: 'Address',
-                    ),
-                    const Gap(height: 16,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        buildDateInfo('Created At', widget.user.createdAt),
-                        buildDateInfo('Updated At', widget.user.updatedAt),
-                      ],
-                    ),
-                    const Gap(height: 16,),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          final updatedUser = widget.user.copyWith(
-                            name: nameController.text,
-                            email: emailController.text,
-                            address: addressController.text,
-                            updatedAt: Timestamp.now(),
-                          );
-                          userViewModel.editUser(updatedUser);
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: const Text('수정'),
-                    ),
+                    buildDateInfo('Created At', widget.user.createdAt),
+                    buildDateInfo('Updated At', widget.user.updatedAt),
                   ],
                 ),
-              ),
+                const Gap(height: 16,),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      final updatedUser = widget.user.copyWith(
+                        name: nameController.text,
+                        email: emailController.text,
+                        address: addressController.text,
+                        updatedAt: Timestamp.now(),
+                      );
+                      userViewModel.editUser(updatedUser);
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: const Text('수정'),
+                ),
+              ],
             ),
-          );
-        }
+          ),
+        ),
       ),
     );
   }

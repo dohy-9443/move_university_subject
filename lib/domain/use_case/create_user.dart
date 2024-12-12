@@ -12,7 +12,6 @@ import 'package:move_university_subject/domain/repository/repository.dart';
 /// Description      : 
 ///
 
-
 class CreateUserUseCase implements IUseCase<Result<String>, CreateUserParams> {
   final IUserRepository _repository;
 
