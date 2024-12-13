@@ -2,9 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:move_university_subject/data/data_sources/data_source.dart';
-import 'package:move_university_subject/data/model/model.dart';
-import 'package:move_university_subject/data/repository/repository.dart';
-import 'package:move_university_subject/domain/entity/entity.dart';
 
 ///
 /// @Project name    : move_university_subject
